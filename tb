@@ -1,0 +1,58 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04.07.2026 11:32:34
+// Design Name: 
+// Module Name: digilocker_tb
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module digilocker_tb(
+
+    );
+    
+reg clk,rst,data_in,submit;
+wire locked ,unlocked;
+
+digilocker  dut(rst,clk,data_in,submit,unlocked,locked);
+
+initial begin 
+  {clk,rst,data_in,submit}=0;
+  end
+always #5 clk = ~clk;  
+  initial begin 
+  
+   @(negedge clk)
+   
+     rst = 1'b1;
+   @(negedge clk)
+     rst = 1'b0;
+     data_in = 1'b1;
+   @(negedge clk)
+      rst = 1'b0;
+      data_in = 1'b0;
+ @(negedge clk)
+      rst = 1'b0;
+      data_in = 1'b1;
+   @(negedge clk)
+      rst = 1'b0;
+      data_in = 1'b0;
+      submit = 1'b1;
+      
+  end
+  
+  
+endmodule
