@@ -53,6 +53,7 @@ Digital-Locker-FSM/
 ## Design Methodology
 
 The controller is implemented using a Moore Finite State Machine consisting of dedicated states representing each stage of password authentication. Sequential logic stores the present state, while combinational logic determines the next state and output signals. Invalid password entries transition the controller to an error state, whereas successful authentication activates the unlock state.
+<img width="989" height="505" alt="image" src="https://github.com/user-attachments/assets/c9a501a1-2441-4927-bc91-28d6d93cf849" />
 
 ---
 
@@ -67,6 +68,7 @@ The RTL design consists of:
 - Reset Logic
 
 The implementation follows synthesizable Verilog coding practices with clearly separated sequential and combinational logic.
+<img width="1503" height="679" alt="image" src="https://github.com/user-attachments/assets/b13bce2b-18a3-477c-b5a1-bc4c4bc14be3" />
 
 ---
 
@@ -75,8 +77,6 @@ The implementation follows synthesizable Verilog coding practices with clearly s
 Functional verification is performed using a dedicated Verilog testbench. The following scenarios are validated:
 
 - Correct password entry
-- Incorrect password sequence
-- Invalid first input
 - Reset operation
 - Multiple authentication attempts
 - Error state transition
