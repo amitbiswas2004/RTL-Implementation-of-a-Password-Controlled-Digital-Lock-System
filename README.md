@@ -114,6 +114,7 @@ Simulation confirms correct FSM operation under both valid and invalid input con
 - LCD/Seven-segment display interface
 
 ---
+<img width="1483" height="356" alt="image" src="https://github.com/user-attachments/assets/7b581f72-99d1-4c8f-8675-5c0bbf0b5d27" />
 
 ## Tools
 
