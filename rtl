@@ -1,1 +1,115 @@
 
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04.07.2026 11:08:31
+// Design Name: 
+// Module Name: digilocker
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module digilocker( input rst,clk,data_in,submit,output reg unlocked ,output reg locked);
+parameter idle=3'b000;
+parameter s0 = 3'b001;
+parameter s1 = 3'b010;
+parameter s2 = 3'b100;
+parameter unlock = 3'b101;
+parameter err_state = 3'b110;
+
+reg [2:0]ps,ns;
+reg [1:0]err_count;
+//ps logic
+always @(posedge clk)
+begin
+  if(rst)
+    
+    ps <= idle;
+   else
+    ps <= ns;
+  
+  if(ps==err_state)
+   err_count = err_count + 1'b1;
+   else
+    err_count = 1'b0;
+   end
+   
+ // ns logic 
+ 
+ always @(*)
+ begin 
+  ns=ps;
+  locked =1'b1;
+  unlocked = 1'b0;
+  
+  case(ps)
+   idle : begin 
+            if(data_in==1 && err_count <3)
+              ns = s0;
+            else
+              ns = err_state;
+         end
+    s0  : begin
+           if(data_in==0 && err_count <3)
+             ns=s1;
+           else
+             ns = err_state;
+          end
+     s1  : begin
+           if(data_in==1 && err_count <3)
+             ns=s2;
+           else
+             ns = err_state;
+           end
+           
+    s2  : begin
+           if(data_in==0 && err_count <3)
+             ns=unlock;
+           else
+             ns = err_state;
+           end
+    unlock : begin 
+                locked = 1'b0;
+                unlocked = 1'b1;
+                 if(submit)
+                   ns = idle;
+                 else
+                   ns = unlock;
+                end
+   err_state : begin 
+               locked = 1'b1;
+                unlocked = 1'b0;
+                 if(submit)
+                   ns = idle;
+                 else
+                   ns = err_state;
+                end
+                   
+     default :  begin 
+                 ns = idle;
+                end
+                
+      endcase
+      
+      end
+      
+     
+   
+    
+
+
+
+
+endmodule
